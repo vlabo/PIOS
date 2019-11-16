@@ -1,8 +1,0 @@
-source/assembly.h
-source/main.cpp
-source/gpio.asm
-source/boot.asm
-source/systemTimer.asm
-Makefile
-source/basic.h
-kernel.list
