@@ -4,9 +4,12 @@ BUILD_DIR=../build
 
 SRCS = $(wildcard $(SRC_DIR)/*.c)
 SRCS += $(wildcard $(SRC_DIR)/io/*.c)
+SRCS += $(wildcard $(SRC_DIR)/std/*.c)
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 OBJS += $(OBJ_DIR)/start.o
 CFLAGS = -Wall -O2 -ffreestanding -nostdinc -nostdlib -mcpu=cortex-a53+nosimd
+
+INCLUDES = -I src -I src/std
 
 all: kernel.img
 
@@ -15,7 +18,7 @@ $(OBJ_DIR)/start.o: start.S
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	mkdir -p $(@D)
-	clang --target=aarch64-elf $(CFLAGS) -c $< -o $@
+	clang --target=aarch64-elf $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 kernel.img: $(OBJS)
 	mkdir -p $(BUILD_DIR)

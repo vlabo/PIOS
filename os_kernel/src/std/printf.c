@@ -34,7 +34,7 @@
 //#include <stdint.h>
 
 
-#include "../types.h"
+#include "types.h"
 
 #include "printf.h"
 
@@ -116,9 +116,9 @@
 
 
 // import float.h for DBL_MAX
-//#if defined(PRINTF_SUPPORT_FLOAT)
-#include "../float.h"
-//#endif
+#if defined(PRINTF_SUPPORT_FLOAT)
+#include "float.h"
+#endif
 
 
 // output function type
