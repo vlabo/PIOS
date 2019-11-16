@@ -10,6 +10,6 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: apt
-      run: sudo apt-get install clang
+      run: sudo apt-get install clang clang++
     - name: make
       run: make
