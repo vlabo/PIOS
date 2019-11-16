@@ -23,11 +23,12 @@
  *
  */
 
-#ifndef LFB_H
-#define LFB_H
+#ifndef FRAMEBUFFER_H
+#define FRAMEBUFFER_H
 
-void lfb_init();
-void lfb_showpicture();
-void lfb_print(int x, int y, char *s);
+#include <types.h>
+
+bool framebuffer_init();
+void framebuffer_print(char *s, int x, int y );
 
 #endif

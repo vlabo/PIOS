@@ -12,7 +12,7 @@ CFLAGS = -Wall -O2 -ffreestanding -nostdinc -nostdlib -mcpu=cortex-a53+nosimd
 
 INCLUDES = -I src -I src/std
 
-all: kernel.img
+all: clean kernel.img
 
 $(OBJ_DIR)/start.o: start.S
 	clang --target=aarch64-elf $(CFLAGS) -c start.S -o $(OBJ_DIR)/start.o

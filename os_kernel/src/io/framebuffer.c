@@ -22,7 +22,7 @@
  * DEALINGS IN THE SOFTWARE.
  *
  */
-
+#include "framebuffer.h"
 #include "uart.h"
 #include "mbox.h"
 
@@ -46,7 +46,7 @@ unsigned char *lfb;
 /**
  * Set screen resolution to 1024x768
  */
-void lfb_init()
+bool framebuffer_init()
 {
     mbox[0] = 35*4;
     mbox[1] = MBOX_REQUEST;
@@ -99,14 +99,16 @@ void lfb_init()
         pitch=mbox[33];
         lfb=(void*)((unsigned long)mbox[28]);
     } else {
-        uart_puts("Unable to set screen resolution to 1024x768x32\n");
+        return false;   // Error unable to set the resolution to 1024x768
     }
+
+    return true;
 }
 
 /**
  * Display a string
  */
-void lfb_print(int x, int y, char* s)
+void framebuffer_print(char* s, int x, int y )
 {
     // get our font
     psf_t *font = (psf_t*)&_binary_res_font_psf_start;

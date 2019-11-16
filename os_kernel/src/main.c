@@ -25,16 +25,23 @@
 
 #include "io/uart.h"
 #include "io/delays.h"
+#include "io/framebuffer.h"
 
 void main()
 {
     uart_init();
+    if( ! framebuffer_init() ) {
+        uart_printf("Failed to initialize frame buffer.\n");
+    }
+
+    framebuffer_print("Yeeeeee!!!!", 1, 0 );
 
     uart_printf("Test\n");
-    double i = 0;
+    int i = 0;
     while(1) {
-        i+=0.1;
-        uart_printf("%s : %f\n", "Test", i);
+        i++;
+        uart_printf("%s : %d\n", "Test", i);
+        framebuffer_print("Yeeeeee!!!!", 1, i );
         wait_msec_st(1000000);
     }
 }

@@ -24,14 +24,14 @@ https://github.com/mrvn/raspbootin
     - Copy `build/kernel.img` to an sd card with installed rasbian as `kernel8.img`
     - Insert it in the raspberry pi and boot it.
 
-## Upload the kernel over serial.
+## Upload the kernel over serial
 
 * Compile  
     ```make```
-* Copy `build/kernel.img` to an sd card with installed rasbian as `kernel.img` (only the first time)
-* Connect your computer to the raspberry pi with [usb-to-serial](https://en.wikipedia.org/wiki/USB_adapter) device 
+* Copy `build/kernel8.img` to an sd card with installed rasbian as `kernel8.img`. (only the first time)
+* Connect your computer to the raspberry pi with [usb-to-serial](https://en.wikipedia.org/wiki/USB_adapter) device.
 * Run:  
     ```make upload```  
-    *you may need to change the tty port in `uploader/Makefile`*
+    *you may need to change the tty port in `uploader/Makefile`.*
 * Boot the raspberry pi.
     
