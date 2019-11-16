@@ -31,7 +31,8 @@ CXXFLAGS    := -O2 -W -Wall -g
 all: raspbootcom
 
 raspbootcom: raspbootcom.o
-	$(CXX) -o $(BUILD_DIR)/$@ $+
+	mkdir -p $(BUILD_DIR)
+	clang -o $(BUILD_DIR)/$@ $+
 
 clean:
 	$(RM) -f $(OBJS) $(BUILD_DIR)/raspbootcom
@@ -42,7 +43,7 @@ dist-clean: clean
 
 # C++.
 %.o: %.cc Makefile
-	clang++ $(CXXFLAGS) -c $< -o $@
+	clang $(CXXFLAGS) -c $< -o $@
 
 upload:
 	$(BUILD_DIR)/raspbootcom /dev/tty.SLAB_USBtoUART $(BUILD_DIR)/kernel.img
