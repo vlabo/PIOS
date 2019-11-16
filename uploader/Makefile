@@ -42,7 +42,7 @@ dist-clean: clean
 
 # C++.
 %.o: %.cc Makefile
-	g++ $(CXXFLAGS) -c $< -o $@
+	clang++ $(CXXFLAGS) -c $< -o $@
 
 upload:
 	$(BUILD_DIR)/raspbootcom /dev/tty.SLAB_USBtoUART $(BUILD_DIR)/kernel.img

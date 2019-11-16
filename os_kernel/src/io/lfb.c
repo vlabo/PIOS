@@ -38,7 +38,7 @@ typedef struct {
     unsigned int width;
     unsigned char glyphs;
 } __attribute__((packed)) psf_t;
-extern volatile unsigned char _binary_font_psf_start;
+extern volatile unsigned char _binary_res_font_psf_start;
 
 unsigned int width, height, pitch;
 unsigned char *lfb;
@@ -109,11 +109,11 @@ void lfb_init()
 void lfb_print(int x, int y, char* s)
 {
     // get our font
-    psf_t *font = (psf_t*)&_binary_font_psf_start;
+    psf_t *font = (psf_t*)&_binary_res_font_psf_start;
     // draw next character if it's not zero
     while(*s) {
         // get the offset of the glyph. Need to adjust this to support unicode table
-        unsigned char *glyph = (unsigned char*)&_binary_font_psf_start +
+        unsigned char *glyph = (unsigned char*)&_binary_res_font_psf_start +
          font->headersize + (*((unsigned char*)s)<font->numglyph?*s:0)*font->bytesperglyph;
         // calculate the offset on screen
         int offs = (y * font->height * pitch) + (x * (font->width+1) * 4);
