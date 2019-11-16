@@ -20,9 +20,12 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	mkdir -p $(@D)
 	clang --target=aarch64-elf $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-kernel.img: $(OBJS)
+$(OBJ_DIR)/font.o: res/font.psf
+	ld.lld -m aarch64elf -r -b binary -o $(OBJ_DIR)/font.o res/font.psf
+
+kernel.img: $(OBJS) $(OBJ_DIR)/font.o
 	mkdir -p $(BUILD_DIR)
-	ld.lld -m aarch64elf -nostdlib $(OBJS) -T link.ld -o $(BUILD_DIR)/kernel.elf
+	ld.lld -m aarch64elf -nostdlib $(OBJS) $(OBJ_DIR)/font.o -T link.ld -o $(BUILD_DIR)/kernel.elf
 	llvm-objcopy -O binary $(BUILD_DIR)/kernel.elf $(BUILD_DIR)/kernel.img
 
 clean:
