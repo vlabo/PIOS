@@ -10,6 +10,6 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: apt
-      run: sudo apt-get update && sudo apt-get upgrade && sudo apt-get install clang lld llvm-8
+      run: sudo apt-get update && sudo apt-get install clang lld llvm-8
     - name: make
       run: make
