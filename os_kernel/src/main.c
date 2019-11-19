@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 bzt (bztsrc@github)
+ * Copyright (C) 2019 Vladimir Stoilov (vlabo@github)
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -25,23 +25,22 @@
 
 #include "io/uart.h"
 #include "io/delays.h"
-#include "io/framebuffer.h"
+#include "io/gpu.h"
+#include "std/printf.h"
 
 void main()
 {
     uart_init();
-    if( ! framebuffer_init() ) {
+    if( ! gpu_init() ) {
         uart_printf("Failed to initialize frame buffer.\n");
     }
 
-    framebuffer_print("Yeeeeee!!!!", 1, 0 );
+    gpu_clear_screen();
 
-    uart_printf("Test\n");
     int i = 0;
     while(1) {
+        printf("Counting %d, ", i);
         i++;
-        uart_printf("%s : %d\n", "Test", i);
-        framebuffer_print("Yeeeeee!!!!", 1, i );
-        wait_msec_st(1000000);
+        wait_msec_st(100000);
     }
 }

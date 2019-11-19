@@ -174,8 +174,3 @@ void uart_printf(const char* format, ...) {
     vfctprintf(uart_puts_printf, NULL, format, va);
     va_end(va);
 }
-
-void _putchar(char character)
-{
-    
-}

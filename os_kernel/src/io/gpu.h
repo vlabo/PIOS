@@ -23,12 +23,14 @@
  *
  */
 
-#ifndef FRAMEBUFFER_H
-#define FRAMEBUFFER_H
+#ifndef GPU_H
+#define GPU_H
 
 #include <types.h>
 
-bool framebuffer_init();
-void framebuffer_print(char *s, int x, int y );
+bool gpu_init();
+void gpu_putc(char s, int x, int y );
+void putc(char s);
+void gpu_clear_screen();
 
 #endif

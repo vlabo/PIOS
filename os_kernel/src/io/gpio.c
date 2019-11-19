@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 bzt (vlabo@github)
+ * Copyright (C) 2019 Vladimir Stoilov (vlabo@github)
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -92,7 +92,7 @@ uint32_t gpio_read ( uint32_t pin )
 
 /**
  * \brief writes a value to the GPIO-Pin (i.e. writes 1 to set or 1 to clear-registers)
- * \param pin GPIO-Pin (preferably between 0 and 53)
+ * \param pin GPIO-Pin (between 0 and 53)
  * \param val output-value (1 for on, 0 for off)
  **/
 void gpio_write ( uint32_t pin, uint32_t val )

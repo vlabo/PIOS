@@ -12,7 +12,7 @@ CFLAGS = -Wall -O2 -ffreestanding -nostdinc -nostdlib -mcpu=cortex-a53+nosimd
 
 INCLUDES = -I src -I src/std
 
-all: clean kernel.img
+all: kernel.img
 
 $(OBJ_DIR)/start.o: start.S
 	clang --target=aarch64-elf $(CFLAGS) -c start.S -o $(OBJ_DIR)/start.o
@@ -24,7 +24,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 $(OBJ_DIR)/font.o: res/font.psf
 	ld.lld -m aarch64elf -r -b binary -o $(OBJ_DIR)/font.o res/font.psf
 
-kernel.img: $(OBJS) $(OBJ_DIR)/font.o
+kernel.img: clean $(OBJS) $(OBJ_DIR)/font.o
 	mkdir -p $(BUILD_DIR)
 	ld.lld -m aarch64elf -nostdlib $(OBJS) -T link.ld -o $(BUILD_DIR)/kernel.elf
 	llvm-objcopy -O binary $(BUILD_DIR)/kernel.elf $(BUILD_DIR)/kernel.img
@@ -32,5 +32,5 @@ kernel.img: $(OBJS) $(OBJ_DIR)/font.o
 clean:
 	rm $(BUILD_DIR)/kernel.* $(OBJ_DIR)/*.o $(OBJ_DIR)/*/*.o >/dev/null 2>/dev/null || true
 
-run:
+run: kernel.img
 	qemu-system-aarch64 -M raspi3 -kernel $(BUILD_DIR)/kernel.img -serial null -serial stdio 

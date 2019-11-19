@@ -22,31 +22,40 @@
  * DEALINGS IN THE SOFTWARE.
  *
  */
-#include "framebuffer.h"
+#include "gpu.h"
 #include "uart.h"
 #include "mbox.h"
 
 /* PC Screen Font as used by Linux Console */
 typedef struct {
-    unsigned int magic;
-    unsigned int version;
-    unsigned int headersize;
-    unsigned int flags;
-    unsigned int numglyph;
-    unsigned int bytesperglyph;
-    unsigned int height;
-    unsigned int width;
+    uint32_t magic;
+    uint32_t version;
+    uint32_t headersize;
+    uint32_t flags;
+    uint32_t numglyph;
+    uint32_t bytesperglyph;
+    uint32_t height;
+    uint32_t width;
     unsigned char glyphs;
 } __attribute__((packed)) psf_t;
 extern volatile unsigned char _binary_res_font_psf_start;
 
-unsigned int width, height, pitch;
-unsigned char *lfb;
+psf_t *font = (psf_t*)&_binary_res_font_psf_start;
+
+uint32_t        m_width, m_height, m_pitch;
+unsigned char   *lfb;
+
+
+uint32_t        m_width_chars, m_height_chars;
+uint32_t        m_x, m_y;
+
+#define BACKGROUND_COLOR 0x0000FF
+#define FOREGROUND_COLOR 0xFFFF00
 
 /**
  * Set screen resolution to 1024x768
  */
-bool framebuffer_init()
+bool gpu_init()
 {
     mbox[0] = 35*4;
     mbox[1] = MBOX_REQUEST;
@@ -93,60 +102,91 @@ bool framebuffer_init()
     mbox[34] = MBOX_TAG_LAST;
 
     if(mbox_call(MBOX_CH_PROP) && mbox[20]==32 && mbox[28]!=0) {
-        mbox[28]&=0x3FFFFFFF;
-        width=mbox[5];
-        height=mbox[6];
-        pitch=mbox[33];
-        lfb=(void*)((unsigned long)mbox[28]);
+        mbox[28]    &= 0x3FFFFFFF;
+        m_width   = mbox[5];
+        m_height  = mbox[6];
+        m_pitch   = mbox[33];
+        lfb     = (void*)((unsigned long)mbox[28]);
     } else {
         return false;   // Error unable to set the resolution to 1024x768
     }
 
+    m_width_chars     = m_width / font->width;
+    m_height_chars    = m_height / font->height;
+    m_x     = 0;
+    m_y    = 0;
+
     return true;
+}
+
+static void    char_to_real_coordinates(uint32_t cx, uint32_t cy, uint32_t* x, uint32_t* y) {
+    *x = cx * font->width;
+    *y = cy * font->height;
 }
 
 /**
  * Display a string
  */
-void framebuffer_print(char* s, int x, int y )
+void gpu_putc(char s, int x, int y)
 {
-    // get our font
-    psf_t *font = (psf_t*)&_binary_res_font_psf_start;
     // draw next character if it's not zero
-    while(*s) {
-        // get the offset of the glyph. Need to adjust this to support unicode table
-        unsigned char *glyph = (unsigned char*)&_binary_res_font_psf_start +
-         font->headersize + (*((unsigned char*)s)<font->numglyph?*s:0)*font->bytesperglyph;
-        // calculate the offset on screen
-        int offs = (y * font->height * pitch) + (x * (font->width+1) * 4);
-        // variables
-        int i,j, line,mask, bytesperline=(font->width+7)/8;
-        // handle carrige return
-        if(*s=='\r') {
-            x=0;
-        } else
-        // new line
-        if(*s=='\n') {
-            x=0; y++;
-        } else {
-            // display a character
-            for(j=0;j<font->height;j++){
-                // display one row
-                line=offs;
-                mask=1<<(font->width-1);
-                for(i=0;i<font->width;i++){
-                    // if bit set, we use white color, otherwise black
-                    *((unsigned int*)(lfb + line))=((int)*glyph) & mask?0xFFFFFF:0;
-                    mask>>=1;
-                    line+=4;
-                }
-                // adjust to next line
-                glyph+=bytesperline;
-                offs+=pitch;
-            }
-            x++;
+
+    // get the offset of the glyph. Need to adjust this to support unicode table
+    unsigned char *glyph = (unsigned char*)&_binary_res_font_psf_start +
+        font->headersize + ( s < font->numglyph ? s:0)*font->bytesperglyph;
+    // calculate the offset on screen
+    uint32_t real_x = 0;
+    uint32_t real_y = 0;
+
+    char_to_real_coordinates(x, y, &real_x, &real_y);
+
+    int offset = (real_y * m_pitch) + real_x * 4;
+    // variables
+    int bytesperline = (font->width + 7) / 8;
+    // handle carrige return
+
+    // display a character
+    for(int j = 0; j < font->height; j++) {
+        
+        int line = offset;
+        int mask = 1 << (font->width-1);
+        for(int i=0; i < font->width; i++) {
+            *((unsigned int*)(lfb + line))=((int)*glyph) & mask ? FOREGROUND_COLOR : BACKGROUND_COLOR;
+            mask >>= 1;
+            line += 4;
         }
-        // next character
-        s++;
+        // adjust to next line
+        glyph += bytesperline;
+        offset += m_pitch;
     }
+
+}
+
+void gpu_clear_screen() {
+    for( int y = 0; y < m_height; y++) {
+        for( int x = 0; x < m_width; x++) {
+            *((unsigned int*)(lfb + (y * m_width + x)*4)) = BACKGROUND_COLOR;
+        }
+    }
+}
+
+void putc(char c) {
+    if(c == '\n') {
+        m_x = 0;
+        m_y++;
+    } else {
+        gpu_putc(c, m_x, m_y);
+        m_x++;
+        if(m_x >= m_width_chars) {
+            m_x = 0;
+            m_y++;
+        }
+    }
+    if( m_y >= m_height_chars )
+        m_y = 0;
+}
+
+
+void _putchar(char c) {
+    putc(c);
 }
