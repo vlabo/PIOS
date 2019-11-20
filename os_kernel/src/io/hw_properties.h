@@ -23,30 +23,14 @@
  *
  */
 
-#include "io/uart.h"
-#include "io/delays.h"
-#include "io/gpu.h"
-#include "std/printf.h"
-#include "io/hw_properties.h"
+#ifndef HW_PROPERTIES_H
+#define HW_PROPERTIES_H
 
-void main()
-{
-    uart_init();
-    if( ! gpu_init() ) {
-        uart_printf("Failed to initialize frame buffer.\n");
-    }
-    
-    gpu_clear_screen();
+#include "std/types.h"
 
-    printf("Serial number is %X\n",     get_serial_number());
-    printf("MAC address is %X\n",       get_serial_number());
-    printf("ARM memory is %u\n",        get_arm_memory());
-    printf("VideoCore memory is %u\n",  get_vc_memory());
+uint64_t    get_serial_number();
+uint64_t    get_mac_address();
+uint32_t    get_arm_memory();
+uint32_t    get_vc_memory();
 
-    int i = 0;
-    while(1) {
-        //uart_printf("Counting %d\n", get_mem_size((atag_t*) 0x100));
-        i++;
-        wait_msec_st(100000);
-    }
-}
+#endif

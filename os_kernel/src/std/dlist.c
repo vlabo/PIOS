@@ -22,31 +22,25 @@
  * DEALINGS IN THE SOFTWARE.
  *
  */
+#include "types.h"
+#include "dlist.h"
 
-#include "io/uart.h"
-#include "io/delays.h"
-#include "io/gpu.h"
-#include "std/printf.h"
-#include "io/hw_properties.h"
+dlist* dlist_new() {
+    //return calloc(sizeof(dlist))
+}
 
-void main()
-{
-    uart_init();
-    if( ! gpu_init() ) {
-        uart_printf("Failed to initialize frame buffer.\n");
+void dlist_delete(dlist* list) {
+    while(list != NULL) {
+        dlist* p = list;
+        list = list->next;
+        //free(p);
     }
-    
-    gpu_clear_screen();
+}
 
-    printf("Serial number is %X\n",     get_serial_number());
-    printf("MAC address is %X\n",       get_serial_number());
-    printf("ARM memory is %u\n",        get_arm_memory());
-    printf("VideoCore memory is %u\n",  get_vc_memory());
-
-    int i = 0;
-    while(1) {
-        //uart_printf("Counting %d\n", get_mem_size((atag_t*) 0x100));
-        i++;
-        wait_msec_st(100000);
-    }
+void dlist_add(dlist* list, char* string) {
+    dlist* new_list = dlist_new();
+    new_list->data = string;
+    while(list->next != NULL)
+        list = list->next;
+    list->next = new_list;
 }

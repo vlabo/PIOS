@@ -160,7 +160,6 @@ void uart_dump(void *ptr)
     }
 }
 
-
 void uart_puts_printf( char character, void* arg ) {
     uart_send( character );
 }
