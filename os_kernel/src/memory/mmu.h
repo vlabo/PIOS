@@ -22,26 +22,10 @@
  * DEALINGS IN THE SOFTWARE.
  *
  */
-#include "types.h"
-#include "dlist.h"
-#include "memory/liballoc.h"
 
-dlist* dlist_new() {
-    return calloc(1, sizeof(dlist));
-}
+#ifndef MMU_H
+#define MMU_H
 
-void dlist_delete(dlist* list) {
-    while(list != NULL) {
-        dlist* p = list;
-        list = list->next;
-        free(p);
-    }
-}
+void    mmu_init();
 
-void dlist_add(dlist* list, char* string) {
-    dlist* new_list = dlist_new();
-    new_list->data = string;
-    while(list->next != NULL)
-        list = list->next;
-    list->next = new_list;
-}
+#endif

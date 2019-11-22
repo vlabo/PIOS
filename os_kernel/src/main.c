@@ -22,15 +22,18 @@
  * DEALINGS IN THE SOFTWARE.
  *
  */
-
+#include "types.h"
 #include "io/uart.h"
 #include "io/delays.h"
 #include "io/gpu.h"
 #include "std/printf.h"
 #include "io/hw_properties.h"
+#include "memory/liballoc.h"
+#include "memory/mmu.h"
 
 void main()
 {
+ 
     uart_init();
     if( ! gpu_init() ) {
         uart_printf("Failed to initialize frame buffer.\n");
@@ -39,9 +42,24 @@ void main()
     gpu_clear_screen();
 
     printf("Serial number is %X\n",     get_serial_number());
-    printf("MAC address is %X\n",       get_serial_number());
+    printf("MAC address is %X\n",       get_mac_address());
     printf("ARM memory is %u\n",        get_arm_memory());
     printf("VideoCore memory is %u\n",  get_vc_memory());
+
+    mmu_init();
+
+    uint8_t* array = malloc(100);
+    printf("Allocated bool array: %X\n", array);
+    if(array != NULL) {
+        memset(array + 50, true, 50);
+
+        for(int i = 0; i < 100; i++) {
+            printf("%d : %s, ", i, array[i] ? "true" : "false");
+        }
+
+        printf("\n");
+        free(array);
+    }
 
     int i = 0;
     while(1) {

@@ -42,9 +42,8 @@ uint64_t    get_serial_number() {
     if(!mbox_call(MBOX_CH_PROP)) {
         return 0;
     }
-    uint64_t serial_number = mbox[6] << 32;
-    serial_number += mbox[5];
-    return serial_number;
+
+    return ((uint64_t) mbox[6]) << 32 | ((uint64_t)mbox[5]);
 }
 
 uint64_t    get_mac_address() {
@@ -63,9 +62,8 @@ uint64_t    get_mac_address() {
     if(!mbox_call(MBOX_CH_PROP)) {
         return 0;
     }
-    uint64_t serial_number = mbox[6] << 32;
-    serial_number += mbox[5];
-    return serial_number;
+
+    return ((uint64_t)mbox[6] << 32) | ((uint64_t)mbox[5]);
 }
 
 uint32_t    get_arm_memory() {

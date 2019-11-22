@@ -49,6 +49,9 @@ unsigned char   *lfb;
 uint32_t        m_width_chars, m_height_chars;
 uint32_t        m_x, m_y;
 
+#define INIT_WIDTH  1920
+#define INIT_HEIGHT 1080
+
 #define BACKGROUND_COLOR 0x0000FF
 #define FOREGROUND_COLOR 0xFFFF00
 
@@ -63,14 +66,14 @@ bool gpu_init()
     mbox[2] = MAILBOX_TAG_SET_PHYSICAL_WIDTH_HEIGHT;
     mbox[3] = 8;
     mbox[4] = 8;
-    mbox[5] = 1024;         //FrameBufferInfo.width
-    mbox[6] = 768;          //FrameBufferInfo.height
+    mbox[5] = INIT_WIDTH;         //FrameBufferInfo.width
+    mbox[6] = INIT_HEIGHT;          //FrameBufferInfo.height
 
     mbox[7] = MAILBOX_TAG_SET_VIRTUAL_WIDTH_HEIGHT;  //set virt wh
     mbox[8] = 8;
     mbox[9] = 8;
-    mbox[10] = 1024;        //FrameBufferInfo.virtual_width
-    mbox[11] = 768;         //FrameBufferInfo.virtual_height
+    mbox[10] = INIT_WIDTH;        //FrameBufferInfo.virtual_width
+    mbox[11] = INIT_HEIGHT;         //FrameBufferInfo.virtual_height
     
     mbox[12] = MAILBOX_TAG_SET_VIRTUAL_OFFSET; //set virt offset
     mbox[13] = 8;
@@ -190,4 +193,5 @@ void putc(char c) {
 
 void _putchar(char c) {
     putc(c);
+    uart_send(c);
 }
