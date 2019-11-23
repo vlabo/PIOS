@@ -190,8 +190,15 @@ void putc(char c) {
         m_y = 0;
 }
 
-
-void _putchar(char c) {
+/*void _putchar(char c) {
     putc(c);
     uart_send(c);
+}*/
+
+size_t  gpu_get_line_char_count() {
+    return m_width_chars;
+}
+
+size_t  gpu_get_lines_count() {
+    return m_height_chars;
 }

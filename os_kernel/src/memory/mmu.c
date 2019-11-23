@@ -43,10 +43,6 @@ void    mmu_init() {
     pages = (bool*) &_end;
     pages_count = avaliable_bytes / PAGE_SIZE;
 
-    printf("Avaliable bytes: %u, pages size: %u\n", avaliable_bytes, PAGE_SIZE);
-    printf("Base address: %X, pages count: %u\n", base_address, pages_count);
-
-
     for(size_t i = 0; i < pages_count; i++) {
         pages[i] = false;
     }
@@ -80,7 +76,6 @@ void* liballoc_alloc(size_t count) {
             for(int j = count; j < i; j++) {
                 pages[j] = true;
             }
-            printf("%d pages allocated starting from %d.\n", count, first_page_index);
             return (void*)(base_address + first_page_index * PAGE_SIZE);
         }
     }
@@ -99,7 +94,5 @@ int liballoc_free(void* pointer, size_t count) {
     for(size_t i = index; i < count; i++) {
         pages[i] = false;
     }
-
-    printf("%d pages freed starting from %d\n", count, index);
     return 0;
 }

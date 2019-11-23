@@ -23,32 +23,33 @@
  *
  */
 #include "types.h"
-#include "io/uart.h"
 #include "io/delays.h"
-#include "io/gpu.h"
 #include "std/printf.h"
 #include "io/hw_properties.h"
 #include "memory/liballoc.h"
 #include "memory/mmu.h"
+#include "cli/cli.h"
 
 void main()
 {
  
-    uart_init();
+    /*uart_init();
     if( ! gpu_init() ) {
         uart_printf("Failed to initialize frame buffer.\n");
     }
     
-    gpu_clear_screen();
+    gpu_clear_screen();*/
+    mmu_init();
+    cli_init();
 
-    printf("Serial number is %X\n",     get_serial_number());
-    printf("MAC address is %X\n",       get_mac_address());
+    printf("Serial number is %lX\n",     get_serial_number());
+    uint64_t mac = get_mac_address();
+    printf("MAC address is %lX\n", mac);
     printf("ARM memory is %u\n",        get_arm_memory());
     printf("VideoCore memory is %u\n",  get_vc_memory());
 
-    mmu_init();
-
-    uint8_t* array = malloc(100);
+    
+    bool* array = calloc(100, sizeof(bool));
     printf("Allocated bool array: %X\n", array);
     if(array != NULL) {
         memset(array + 50, true, 50);

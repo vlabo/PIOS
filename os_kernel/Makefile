@@ -6,6 +6,7 @@ SRCS = $(wildcard $(SRC_DIR)/*.c)
 SRCS += $(wildcard $(SRC_DIR)/io/*.c)
 SRCS += $(wildcard $(SRC_DIR)/std/*.c)
 SRCS += $(wildcard $(SRC_DIR)/memory/*.c)
+SRCS += $(wildcard $(SRC_DIR)/cli/*.c)
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 OBJS += $(OBJ_DIR)/start.o
 OBJS += $(OBJ_DIR)/font.o
