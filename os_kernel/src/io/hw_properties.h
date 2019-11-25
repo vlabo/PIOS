@@ -33,4 +33,6 @@ uint64_t    get_mac_address();
 uint32_t    get_arm_memory();
 uint32_t    get_vc_memory();
 
+bool        set_cpu_max_speed();        // Not working
+
 #endif

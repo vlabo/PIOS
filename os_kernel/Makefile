@@ -11,7 +11,7 @@ OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 OBJS += $(OBJ_DIR)/start.o
 OBJS += $(OBJ_DIR)/font.o
 ASMS = $(patsubst $(SRC_DIR)/%.c, asm/%.S, $(SRCS))
-CFLAGS = -Wall -O2 -ffreestanding -nostdinc -nostdlib -mcpu=cortex-a53+nosimd
+CFLAGS = -Wall -O2 -ffreestanding -fno-tree-slp-vectorize -std=c17 -mstrict-align -mcpu=cortex-a53+nosimd -Wno-missing-braces
 
 INCLUDES = -I src -I src/std
 
@@ -40,4 +40,4 @@ clean:
 	rm $(BUILD_DIR)/kernel.* $(OBJ_DIR)/*.o $(OBJ_DIR)/*/*.o >/dev/null 2>/dev/null || true
 
 run: kernel.img
-	qemu-system-aarch64 -M raspi3 -kernel $(BUILD_DIR)/kernel.img -serial null -serial stdio 
+	qemu-system-aarch64 -M raspi3 -kernel $(BUILD_DIR)/kernel.img -serial null -serial stdio -usb

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 bzt (bztsrc@github)
+ * Copyright (C) 2019 Vladimir Stoilov (vlabo@github)
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -13,8 +13,8 @@
  * included in all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT                                                 LIMITED TO THE WARRANTIES OF
- * MERCHANTA   BILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
  * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
  * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
@@ -23,15 +23,23 @@
  *
  */
 
-#ifndef DELAYS_H
-#define DELAYS_H
+#ifndef ASSERT_H
+#define ASSERT_H
 
-#include <stdint.h>
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-void        wait_cycles(uint32_t n);
-void        wait_usec(uint32_t n);
-uint64_t    get_system_timer();
-void        wait_usec_st(unsigned int n);
-uint64_t    tick_difference (uint64_t us1, uint64_t us2);
+#ifdef NDEBUG
+	#define assert(expr)	((void) 0)
+#else
+	void assertion_failed (const char *expresion, const char *file, unsigned line);
+
+	#define assert(expr)	((expr)	? ((void) 0) : assertion_failed (#expr, __FILE__, __LINE__))
+#endif
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

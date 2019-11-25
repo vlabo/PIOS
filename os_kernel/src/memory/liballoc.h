@@ -91,11 +91,12 @@ extern int liballoc_free(void*,size_t);
 
        
 
-extern void    *PREFIX(malloc)(size_t);				                                ///< The standard function.
-extern void    *PREFIX(realloc)(void *, size_t);		                            ///< The standard function.
-extern void    *PREFIX(calloc)(size_t, size_t);		                                ///< The standard function.
-extern void     PREFIX(free)(void *);					                            ///< The standard function.
-extern void    *PREFIX(memset)(void*, int, size_t) ;					///< The standard function.
+void    *PREFIX(malloc)(size_t);                 ///< The standard function.
+void    *PREFIX(realloc)(void *, size_t);        ///< The standard function.
+void    *PREFIX(calloc)(size_t, size_t);         ///< The standard function.
+void     PREFIX(free)(void *);                   ///< The standard function.
+void    *PREFIX(memset)(void*, int, size_t);     ///< The standard function.
+void    *PREFIX(memcpy)(void*, void*, size_t);   ///< The standard function.
 
 
 #ifdef __cplusplus

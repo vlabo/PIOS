@@ -26,57 +26,66 @@
 #include "gpio.h"
 #include "delays.h"
 
-#define SYSTMR_LO        ((volatile unsigned int*)(MMIO_BASE+0x00003004))
-#define SYSTMR_HI        ((volatile unsigned int*)(MMIO_BASE+0x00003008))
+#define SYSTMR_LO        ((volatile uint32_t*)(IO_BASE+0x00003004))
+#define SYSTMR_HI        ((volatile uint32_t*)(IO_BASE+0x00003008))
 
 /**
  * Wait N CPU cycles (ARM CPU only)
  */
-void wait_cycles(unsigned int n)
+void wait_cycles(uint32_t n)
 {
-    if(n) while(n--) { asm volatile("nop"); }
+    if(n) while(n--) { __asm__ volatile("nop"); }
 }
 
 /**
  * Wait N microsec (ARM CPU only)
  */
-void wait_msec(unsigned int n)
+void wait_usec(uint32_t n)
 {
-    register unsigned long f, t, r;
+    register uint64_t f, t, r;
     // get the current counter frequency
-    asm volatile ("mrs %0, cntfrq_el0" : "=r"(f));
+    __asm__ volatile ("mrs %0, cntfrq_el0" : "=r"(f));
     // read the current counter
-    asm volatile ("mrs %0, cntpct_el0" : "=r"(t));
+    __asm__ volatile ("mrs %0, cntpct_el0" : "=r"(t));
     // calculate expire value for counter
     t+=((f/1000)*n)/1000;
-    do{asm volatile ("mrs %0, cntpct_el0" : "=r"(r));}while(r<t);
+    do{__asm__ volatile ("mrs %0, cntpct_el0" : "=r"(r));}while(r<t);
 }
 
 /**
  * Get System Timer's counter
  */
-unsigned long get_system_timer()
+uint64_t get_system_timer()
 {
-    unsigned int h=-1, l;
+    uint32_t h=-1, l;
     // we must read MMIO area as two separate 32 bit reads
-    h=*SYSTMR_HI;
-    l=*SYSTMR_LO;
+    h = *SYSTMR_HI;
+    l = *SYSTMR_LO;
     // we have to repeat it if high word changed during read
-    if(h!=*SYSTMR_HI) {
-        h=*SYSTMR_HI;
-        l=*SYSTMR_LO;
+    if(h != *SYSTMR_HI) {
+        h = *SYSTMR_HI;
+        l = *SYSTMR_LO;
     }
     // compose long int value
-    return ((unsigned long) h << 32) | l;
+    return ((uint64_t) h << 32) | l;
 }
 
 /**
  * Wait N microsec (with BCM System Timer)
  */
-void wait_msec_st(unsigned int n)
+void wait_usec_st(unsigned int n)
 {
     unsigned long t=get_system_timer();
     // we must check if it's non-zero, because qemu does not emulate
     // system timer, and returning constant zero would mean infinite loop
     if(t) while(get_system_timer() < t+n);
+}
+
+
+uint64_t tick_difference (uint64_t us1, uint64_t us2) {
+	if (us1 > us2) {												// If timer one is greater than two then timer rolled
+		uint64_t td = UINT64_MAX - us1 + 1;							// Counts left to roll value
+		return us2 + td;											// Add that to new count
+	} 
+	return us2 - us1;												// Return difference between values
 }

@@ -150,6 +150,20 @@ typedef enum {
 } TAG_CHANNEL_COMMAND;
 
 
+/// https://github.com/raspberrypi/firmware/wiki/Mailboxes
+typedef enum {
+	CLK_EMMC_ID		= 0x1,								// Mailbox Tag Channel EMMC clock ID 
+	CLK_UART_ID		= 0x2,								// Mailbox Tag Channel uart clock ID
+	CLK_ARM_ID		= 0x3,								// Mailbox Tag Channel ARM clock ID
+	CLK_CORE_ID		= 0x4,								// Mailbox Tag Channel SOC core clock ID
+	CLK_V3D_ID		= 0x5,								// Mailbox Tag Channel V3D clock ID
+	CLK_H264_ID		= 0x6,								// Mailbox Tag Channel H264 clock ID
+	CLK_ISP_ID		= 0x7,								// Mailbox Tag Channel ISP clock ID
+	CLK_SDRAM_ID	= 0x8,								// Mailbox Tag Channel SDRAM clock ID
+	CLK_PIXEL_ID	= 0x9,								// Mailbox Tag Channel PIXEL clock ID
+	CLK_PWM_ID		= 0xA,								// Mailbox Tag Channel PWM clock ID
+} MB_CLOCK_ID;
+
 int mbox_call(unsigned char ch);
 
 #endif

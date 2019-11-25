@@ -33,6 +33,7 @@
 #define _PRINTF_H_
 
 #include "stdargs.h"
+#include <stddef.h>
 
 #ifdef __cplusplus
 extern "C" {
