@@ -38,19 +38,15 @@ void main()
     mmu_init();
     cli_init();
     //set_cpu_max_speed();
-
-    printf("Serial number is %lX\n",    get_serial_number());
-    printf("MAC address is %lX\n",      get_mac_address());
-    printf("ARM memory is %u\n",        get_arm_memory());
-    printf("VideoCore memory is %u\n",  get_vc_memory());
+    printf("-------------------------------------------------\n");
+    printf("Execution Level: %ld\n", get_current_execution_level());
+    printf("-------------------------------------------------\n");
+    printf("Serial number is %lX\n",        get_serial_number());
+    printf("MAC address is %lX\n",          get_mac_address());
+    printf("ARM memory is %u\n",            get_arm_memory());
+    printf("VideoCore memory is %u\n",      get_vc_memory());
+    printf("-------------------------------------------------\n");
     
-    //assert(1 == 0);
-
-
-    /*for(int i = 0; i < 8; i++) {
-        printf("%X\n", mbox[i]);
-    }*/
-
     /* Initialize USB system we will want keyboard and mouse */
 	UsbInitialise();
     UsbCheckForChange();

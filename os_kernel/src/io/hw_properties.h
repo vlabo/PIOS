@@ -28,6 +28,7 @@
 
 #include <stdlib.h>
 
+uint64_t    get_current_execution_level();
 uint64_t    get_serial_number();
 uint64_t    get_mac_address();
 uint32_t    get_arm_memory();

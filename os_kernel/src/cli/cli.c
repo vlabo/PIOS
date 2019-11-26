@@ -98,5 +98,6 @@ static void gpu_putchar(char c) {
 }
 
 void    cli_stream(char c) {
+    uart_send(c);
     gpu_putchar(c);
 }

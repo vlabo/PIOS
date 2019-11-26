@@ -45,4 +45,4 @@ clean:
 	rm -fr $(OBJ_DIR) >/dev/null 2>/dev/null || true
 
 run: kernel.img
-	qemu-system-aarch64 -M raspi3 -kernel $(BUILD_DIR)/kernel.img -serial null -serial stdio -usb
+	qemu-system-aarch64 -M raspi3 -kernel $(BUILD_DIR)/kernel.img -serial null -serial stdio -d int

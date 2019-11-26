@@ -26,6 +26,12 @@
 #include "hw_properties.h"
 #include "mbox.h"
 
+uint64_t    get_current_execution_level() {
+    uint64_t el;
+    __asm__ volatile ("mrs %0, CurrentEL" : "=r" (el));
+    return el;
+}
+
 uint64_t    get_serial_number() {
     mbox[0] = 8*4;                  // length of the message
     mbox[1] = MBOX_REQUEST;         // this is a request message
@@ -124,7 +130,7 @@ bool    set_cpu_max_speed() {
     mbox[5] = CLK_ARM_ID;
     mbox[6] = max_clock_rate;
     mbox[7] = MBOX_TAG_LAST;
-    
+
     if(!mbox_call(MBOX_CH_PROP)) {
         return false;
     }
