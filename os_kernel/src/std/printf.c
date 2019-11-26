@@ -30,12 +30,6 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-//#include <stdbool.h>
-//#include <stdint.h>
-
-
-#include "types.h"
-
 #include "printf.h"
 
 
@@ -116,9 +110,12 @@
 
 
 // import float.h for DBL_MAX
+#define PRINTF_SUPPORT_FLOAT
 #if defined(PRINTF_SUPPORT_FLOAT)
-#include "float.h"
+#include <float.h>
 #endif
+
+void (*default_stream)(char) = NULL;
 
 
 // output function type
@@ -921,4 +918,14 @@ int vfctprintf(void (*out)(char character, void* arg), void* arg, const char* fo
   const out_fct_wrap_type out_fct_wrap = { out, arg };
   const int ret = _vsnprintf(_out_fct, (char*)(uintptr_t)&out_fct_wrap, (size_t)-1, format, va);
   return ret;
+}
+
+void    _putchar(char c) {
+  if(default_stream != NULL) {
+    default_stream(c);
+  }
+}
+
+void set_default_output_stream(void (*stream)(char)) {
+    default_stream = stream;
 }

@@ -31,8 +31,8 @@ extern "C"
 {
 #endif
 
-#include <stdint.h>
-#include "std/printf.h"				// Needed for printf
+#include <stdlib.h>	
+#include <printf.h>
 
 //#define LOG(...)
 #define LOG(...) printf(__VA_ARGS__)

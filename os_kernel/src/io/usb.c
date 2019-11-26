@@ -8,9 +8,7 @@
   and control devices on the BUS.
 
 *******************************************************************************/
-#include <stdbool.h>			// C standard needed for bool
-#include "types.h"				// C standard needed for NULL
-#include <stdint.h>				// C standard needed for uint8_t, uint32_t, uint64_t etc
+#include <stdlib.h>
 #include "memory/liballoc.h"				// C standard needed for memset
 //#include <wchar.h>				// C standard needed for UTF for unicode descriptor support
 #include "mbox.h"		// Provides timing routines and mailbox routines to power up/down the USB.  
@@ -695,35 +693,35 @@ struct __attribute__((packed, aligned(4))) UsbSendControl {
 /* on "Compile Time Assertions". It is part of the C11++ specification and */
 /* all compilers that support the standard will have them (GCC, MSC inc)   */
 /*-------------------------------------------------------------------------*/
-//#include <assert.h>								// Need for compile time static_assert
+#include <assert.h>								// Need for compile time static_assert
 
 /* DESIGNWARE 2.0 REGISTERS */
-_Static_assert(sizeof(struct CoreOtgControl) == 0x04, "Register/Structure should be 32bits (4 bytes)");
-_Static_assert(sizeof(struct CoreOtgInterrupt) == 0x04, "Register/Structure should be 32bits (4 bytes)");
-_Static_assert(sizeof(struct CoreAhb) == 0x04, "Register/Structure should be 32bits (4 bytes)");
-_Static_assert(sizeof(struct UsbControl) == 0x04, "Register/Structure should be 32bits (4 bytes)");
-_Static_assert(sizeof(struct CoreReset) == 0x04, "Register/Structure should be 32bits (4 bytes)");
-_Static_assert(sizeof(struct CoreInterrupts) == 0x04, "Register/Structure should be 32bits (4 bytes)");
+static_assert(sizeof(struct CoreOtgControl) == 0x04, "Register/Structure should be 32bits (4 bytes)");
+static_assert(sizeof(struct CoreOtgInterrupt) == 0x04, "Register/Structure should be 32bits (4 bytes)");
+static_assert(sizeof(struct CoreAhb) == 0x04, "Register/Structure should be 32bits (4 bytes)");
+static_assert(sizeof(struct UsbControl) == 0x04, "Register/Structure should be 32bits (4 bytes)");
+static_assert(sizeof(struct CoreReset) == 0x04, "Register/Structure should be 32bits (4 bytes)");
+static_assert(sizeof(struct CoreInterrupts) == 0x04, "Register/Structure should be 32bits (4 bytes)");
 
-_Static_assert(sizeof(struct CoreNonPeriodicInfo) == 0x08, "Register/Structure should be 2x32bits (8 bytes)");
+static_assert(sizeof(struct CoreNonPeriodicInfo) == 0x08, "Register/Structure should be 2x32bits (8 bytes)");
 
-_Static_assert(sizeof(struct CoreHardware) == 0x10, "Register/Structure should be 4x32bits (16 bytes)");
+static_assert(sizeof(struct CoreHardware) == 0x10, "Register/Structure should be 4x32bits (16 bytes)");
 
-_Static_assert(sizeof(struct HostChannel) == 0x20, "Register/Structure should be 8x32bits (32 bytes)");
+static_assert(sizeof(struct HostChannel) == 0x20, "Register/Structure should be 8x32bits (32 bytes)");
 
 /* USB SPECIFICATION STRUCTURES */
-_Static_assert(sizeof(struct HubPortFullStatus) == 0x04, "Structure should be 32bits (4 bytes)");
-_Static_assert(sizeof(struct HubFullStatus) == 0x04, "Structure should be 32bits (4 bytes)");
-_Static_assert(sizeof(struct UsbDescriptorHeader) == 0x02, "Structure should be 2 bytes");
-_Static_assert(sizeof(struct UsbEndpointDescriptor) == 0x07, "Structure should be 7 bytes");
-_Static_assert(sizeof(struct UsbDeviceRequest) == 0x08, "Structure should be 8 bytes");
-_Static_assert(sizeof(struct HubDescriptor) == 0x09, "Structure should be 9 bytes");
-_Static_assert(sizeof(struct UsbInterfaceDescriptor) == 0x09, "Structure should be 9 bytes");
-_Static_assert(sizeof(struct usb_configuration_descriptor) == 0x09, "Structure should be 9 bytes");
-_Static_assert(sizeof(struct usb_device_descriptor) == 0x12, "Structure should be 18 bytes");
+static_assert(sizeof(struct HubPortFullStatus) == 0x04, "Structure should be 32bits (4 bytes)");
+static_assert(sizeof(struct HubFullStatus) == 0x04, "Structure should be 32bits (4 bytes)");
+static_assert(sizeof(struct UsbDescriptorHeader) == 0x02, "Structure should be 2 bytes");
+static_assert(sizeof(struct UsbEndpointDescriptor) == 0x07, "Structure should be 7 bytes");
+static_assert(sizeof(struct UsbDeviceRequest) == 0x08, "Structure should be 8 bytes");
+static_assert(sizeof(struct HubDescriptor) == 0x09, "Structure should be 9 bytes");
+static_assert(sizeof(struct UsbInterfaceDescriptor) == 0x09, "Structure should be 9 bytes");
+static_assert(sizeof(struct usb_configuration_descriptor) == 0x09, "Structure should be 9 bytes");
+static_assert(sizeof(struct usb_device_descriptor) == 0x12, "Structure should be 18 bytes");
 
 /* INTERNAL STRUCTURES */
-_Static_assert(sizeof(struct UsbSendControl) == 0x04, "Structure should be 32bits (4 bytes)");
+static_assert(sizeof(struct UsbSendControl) == 0x04, "Structure should be 32bits (4 bytes)");
 
 /***************************************************************************}
 {					      PRIVATE INTERNAL CONSTANTS	                    }

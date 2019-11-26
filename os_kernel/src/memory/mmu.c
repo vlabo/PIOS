@@ -24,9 +24,12 @@
  */
 
 #include "mmu.h"
+
+#include <stdlib.h>
+#include <printf.h>
+
 #include "io/hw_properties.h"
-#include "types.h"
-#include "std/printf.h"
+
 
 extern uint8_t _end;
 
@@ -47,7 +50,6 @@ void    mmu_init() {
         pages[i] = false;
     }
 }
-
 
 int liballoc_lock() {
     return 0;

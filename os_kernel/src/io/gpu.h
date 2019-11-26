@@ -26,13 +26,13 @@
 #ifndef GPU_H
 #define GPU_H
 
-#include <types.h>
+#include <stdlib.h>
 
 bool    gpu_init();
 size_t  gpu_get_line_char_count();
 size_t  gpu_get_lines_count();
 void    gpu_putc(char s, int x, int y );
-void    putc(char s);
+void    gpu_stream(char s);
 void    gpu_clear_screen();
 
 #endif

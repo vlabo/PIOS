@@ -23,14 +23,22 @@
  *
  */
 
-struct dlist;
+#ifndef STDLIB_H
+#define STDLIB_H
 
-typedef struct dlist {
-    char* data;
-    struct dlist* prev;
-    struct dlist* next;
-} dlist;
+#include <types/stdbool.h>
+#include <types/stdint.h>
+#include <types/float.h>
 
-dlist* dlist_new();
-void dlist_delete(dlist* list);
-void dlist_add(dlist* list, char* string);
+#define USER_ADDR_NULL  ((user_addr_t) 0)
+#define CAST_USER_ADDR_T(a_ptr)   ((user_addr_t)((uintptr_t)(a_ptr)))
+
+#define NULL ((void*)0)
+
+#if __LP64__
+#define __WORDSIZE 64
+#else
+#define __WORDSIZE 32
+#endif
+
+#endif

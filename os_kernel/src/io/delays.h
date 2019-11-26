@@ -26,7 +26,7 @@
 #ifndef DELAYS_H
 #define DELAYS_H
 
-#include <stdint.h>
+#include <stdlib.h>
 
 void        wait_cycles(uint32_t n);
 void        wait_usec(uint32_t n);

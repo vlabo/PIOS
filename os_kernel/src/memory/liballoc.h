@@ -26,7 +26,7 @@
 #ifndef _LIBALLOC_H
 #define _LIBALLOC_H
 
-#include "types.h"
+#include <stdlib.h>
 
 /** \defgroup ALLOCHOOKS liballoc hooks 
  *

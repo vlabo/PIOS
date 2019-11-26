@@ -23,18 +23,17 @@
  *
  */
 
-#ifndef TYPES_H
-#define TYPES_H
+#ifndef STDBOOL_H
+#define STDBOOL_H
 
-#include <stdint.h>
-#include <stdbool.h>
+#define	__bool_true_false_are_defined	1
 
+#define	false	0
+#define	true	1
 
-#define NULL ((void*)0)
-
-#ifndef _HAVE_SIZE_T
-#define _HAVE_SIZE_T
-typedef uint64_t            size_t;
+#define	bool	_Bool
+#if __STDC_VERSION__ < 199901L && __GNUC__ < 3
+typedef	int	_Bool;
 #endif
 
-#endif
+#endif  /*  STDBOOL_H   */

@@ -173,7 +173,7 @@ void gpu_clear_screen() {
     }
 }
 
-void putc(char c) {
+void gpu_stream(char c) {
     if(c == '\n') {
         m_x = 0;
         m_y++;
@@ -189,11 +189,6 @@ void putc(char c) {
     if( m_y >= m_height_chars )
         m_y = 0;
 }
-
-/*void _putchar(char c) {
-    putc(c);
-    uart_send(c);
-}*/
 
 size_t  gpu_get_line_char_count() {
     return m_width_chars;

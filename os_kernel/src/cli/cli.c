@@ -23,12 +23,11 @@
  *
  */
 
+#include <stdio.h>
 #include "cli.h"
 #include "io/gpu.h"
 #include "io/uart.h"
 #include "memory/liballoc.h"
-#include "std/printf.h"
-
 
 #define BUFFER_SIZE 100
 
@@ -50,7 +49,6 @@ void init_lines(Line* lines) {
     }
 }
 
-
 void    cli_init() {
     uart_init();
 
@@ -66,6 +64,8 @@ void    cli_init() {
     m_cli_buffer = calloc(BUFFER_SIZE, sizeof(Line));
     init_lines(m_cli_buffer);
     uart_printf("CLI initialized.\n");
+
+    set_default_output_stream(cli_stream);
 }
 
 void    cli_destroy() {
@@ -97,7 +97,6 @@ static void gpu_putchar(char c) {
     draw();
 }
 
-void    _putchar(char c) {
-    uart_send(c);
+void    cli_stream(char c) {
     gpu_putchar(c);
 }

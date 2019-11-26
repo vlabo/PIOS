@@ -26,7 +26,7 @@
 #include "gpio.h"
 #include "mbox.h"
 #include "delays.h"
-#include "printf.h"
+#include <printf.h>
 
 /* PL011 UART registers */
 #define UART0_DR        ((volatile unsigned int*)(IO_BASE+0x00201000))
@@ -172,4 +172,8 @@ void uart_printf(const char* format, ...) {
     va_start(va, format);
     vfctprintf(uart_puts_printf, NULL, format, va);
     va_end(va);
+}
+
+void    uart_stream(char c) {
+    uart_send(c);
 }

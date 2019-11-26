@@ -26,9 +26,10 @@
 #ifndef CLI_H
 #define CLI_H
 
-#include "types.h"
+#include <stdlib.h>
 
 void    cli_init();
 void    cli_destroy();
+void    cli_stream(char c);
 
 #endif

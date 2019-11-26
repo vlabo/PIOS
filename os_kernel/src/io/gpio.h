@@ -26,7 +26,7 @@
 #ifndef GPIO_H
 #define GPIO_H
 
-#include "types.h"
+#include <stdlib.h>
 
 #define IO_BASE    0x3F000000
 

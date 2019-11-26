@@ -22,10 +22,10 @@
  * DEALINGS IN THE SOFTWARE.
  *
  */
-#include "types.h"
+#include <stdlib.h>
+#include <assert.h>
+
 #include "io/delays.h"
-#include "std/printf.h"
-#include "std/assert.h"
 #include "io/hw_properties.h"
 #include "io/usb.h"
 #include "io/mbox.h"
@@ -37,13 +37,14 @@ void main()
 {
     mmu_init();
     cli_init();
+    //set_cpu_max_speed();
 
     printf("Serial number is %lX\n",    get_serial_number());
     printf("MAC address is %lX\n",      get_mac_address());
     printf("ARM memory is %u\n",        get_arm_memory());
     printf("VideoCore memory is %u\n",  get_vc_memory());
     
-    assert(1 == 0);
+    //assert(1 == 0);
 
 
     /*for(int i = 0; i < 8; i++) {
@@ -51,13 +52,13 @@ void main()
     }*/
 
     /* Initialize USB system we will want keyboard and mouse */
-	//UsbInitialise();
-    //UsbCheckForChange();
+	UsbInitialise();
+    UsbCheckForChange();
 
 	/* Display the USB tree */
-	//printf("\n");
-	//UsbShowTree(UsbGetRootHub(), 1, '+');
-	//printf("\n");
+	printf("\n");
+	UsbShowTree(UsbGetRootHub(), 1, '+');
+	printf("\n");
 
     /* Detect the first keyboard on USB bus */
 	/*uint8_t firstKbd = 0;

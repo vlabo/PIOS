@@ -26,9 +26,7 @@
 #ifndef ASSERT_H
 #define ASSERT_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#define static_assert(bool_constexpr, message) 		_Static_assert(bool_constexpr, message)
 
 #ifdef NDEBUG
 	#define assert(expr)	((void) 0)
@@ -36,10 +34,6 @@ extern "C" {
 	void assertion_failed (const char *expresion, const char *file, unsigned line);
 
 	#define assert(expr)	((expr)	? ((void) 0) : assertion_failed (#expr, __FILE__, __LINE__))
-#endif
-
-#ifdef __cplusplus
-}
 #endif
 
 #endif

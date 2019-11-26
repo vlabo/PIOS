@@ -32,13 +32,18 @@
 #ifndef _PRINTF_H_
 #define _PRINTF_H_
 
-#include "stdargs.h"
-#include <stddef.h>
+#include <stdarg.h>
+#include <stdlib.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+/**
+ * Setting the default stream to send charecters to when printf is called.
+ * \param character putchar(char c) function
+ */
+void set_default_output_stream(void (*stream)(char));
 
 /**
  * Output a character to a custom device like UART, used by the printf() function

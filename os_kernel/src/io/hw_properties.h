@@ -26,7 +26,7 @@
 #ifndef HW_PROPERTIES_H
 #define HW_PROPERTIES_H
 
-#include "std/types.h"
+#include <stdlib.h>
 
 uint64_t    get_serial_number();
 uint64_t    get_mac_address();
