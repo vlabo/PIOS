@@ -98,3 +98,11 @@ int liballoc_free(void* pointer, size_t count) {
     }
     return 0;
 }
+
+intptr_t read32(intptr_t address) {
+	return *(volatile intptr_t *) address;
+}
+
+void write32(intptr_t address, intptr_t value) {
+	*(volatile intptr_t *) address = value;
+}

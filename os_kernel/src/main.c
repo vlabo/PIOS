@@ -47,14 +47,16 @@ void main()
     printf("VideoCore memory is %u\n",      get_vc_memory());
     printf("-------------------------------------------------\n");
     
+    assert(1==4);
+
     /* Initialize USB system we will want keyboard and mouse */
-	UsbInitialise();
-    UsbCheckForChange();
+	//UsbInitialise();
+    //UsbCheckForChange();
 
 	/* Display the USB tree */
-	printf("\n");
-	UsbShowTree(UsbGetRootHub(), 1, '+');
-	printf("\n");
+	//printf("\n");
+	//UsbShowTree(UsbGetRootHub(), 1, '+');
+	//printf("\n");
 
     /* Detect the first keyboard on USB bus */
 	/*uint8_t firstKbd = 0;

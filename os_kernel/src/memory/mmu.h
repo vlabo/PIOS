@@ -26,6 +26,13 @@
 #ifndef MMU_H
 #define MMU_H
 
-void    mmu_init();
+#include <stdint.h>
+/*
+*   Initialize memroy needed for malloc, calloc, free...       
+*/
+void        mmu_init();
+
+intptr_t    read32(intptr_t nAddress);
+void        write32(intptr_t nAddress, intptr_t nValue);
 
 #endif

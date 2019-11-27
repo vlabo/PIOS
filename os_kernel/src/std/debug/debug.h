@@ -23,22 +23,17 @@
  *
  */
 
+#ifndef DEBUG_H
+#define DEBUG_H
 
-#include "assert.h"
-#include "printf.h"
-#include "stdlib.h"
-#include "debug/debug.h"
+#include <stdint.h>
 
 #ifndef NDEBUG
 
-void assertion_failed (const char *expresion, const char *file, unsigned line)
-{
-	uint64_t stack_pointer;
-	__asm__ volatile ("mov %0,sp" : "=r" (stack_pointer));
+void debug_hexdump (const void *start, uint64_t bytes_count, const char *source );
+void debug_stacktrace (const uint64_t *stack_pointer, const char *source );
 
-    printf("Assertion failed: %s: %s(%u)\n", expresion, file, line);
+#endif
 
-	//debug_stacktrace ((uint64_t*) stack_pointer, NULL);
-}
 
 #endif

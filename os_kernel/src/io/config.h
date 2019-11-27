@@ -23,22 +23,9 @@
  *
  */
 
+#ifndef CONFIG_H
+#define CONFIG_H
 
-#include "assert.h"
-#include "printf.h"
-#include "stdlib.h"
-#include "debug/debug.h"
+#define MEM_KERNEL_START    0x80000
 
-#ifndef NDEBUG
-
-void assertion_failed (const char *expresion, const char *file, unsigned line)
-{
-	uint64_t stack_pointer;
-	__asm__ volatile ("mov %0,sp" : "=r" (stack_pointer));
-
-    printf("Assertion failed: %s: %s(%u)\n", expresion, file, line);
-
-	//debug_stacktrace ((uint64_t*) stack_pointer, NULL);
-}
-
-#endif
+#endif /* CONFIG_H */
