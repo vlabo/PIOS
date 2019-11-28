@@ -11,6 +11,9 @@ all:
 run:
 	$(MAKE) -C os_kernel $@
 
+tidy:
+	$(MAKE) -C os_kernel $@
+
 clean:
 	$(MAKE) -C uploader $@
 	$(MAKE) -C loader_kernel $@

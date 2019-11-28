@@ -23,6 +23,7 @@
  *
  */
 #include <stdlib.h>
+#include <string.h>
 #include <assert.h>
 
 #include "io/delays.h"
@@ -48,6 +49,7 @@ void main()
     printf("-------------------------------------------------\n");
     
     assert(1==4);
+    memmove(NULL, NULL, 10);
 
     /* Initialize USB system we will want keyboard and mouse */
 	//UsbInitialise();

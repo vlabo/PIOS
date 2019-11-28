@@ -95,8 +95,8 @@ void    *PREFIX(malloc)(size_t);                 ///< The standard function.
 void    *PREFIX(realloc)(void *, size_t);        ///< The standard function.
 void    *PREFIX(calloc)(size_t, size_t);         ///< The standard function.
 void     PREFIX(free)(void *);                   ///< The standard function.
-void    *PREFIX(memset)(void*, int, size_t);     ///< The standard function.
-void    *PREFIX(memcpy)(void*, void*, size_t);   ///< The standard function.
+//void    *PREFIX(memset)(void*, int, size_t);     ///< The standard function.
+//void    *PREFIX(memcpy)(void*, void*, size_t);   ///< The standard function.
 
 
 #ifdef __cplusplus

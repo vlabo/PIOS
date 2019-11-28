@@ -29,6 +29,7 @@
 #include <types/stdbool.h>
 #include <types/stdint.h>
 #include <types/float.h>
+#include <memory/liballoc.h>
 
 #define USER_ADDR_NULL  ((user_addr_t) 0)
 #define CAST_USER_ADDR_T(a_ptr)   ((user_addr_t)((uintptr_t)(a_ptr)))

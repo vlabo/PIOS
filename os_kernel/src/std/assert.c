@@ -31,14 +31,17 @@
 
 #ifndef NDEBUG
 
-void assertion_failed (const char *expresion, const char *file, unsigned line)
-{
+void assertion_failed (const char *expresion, const char *file, const char *function, unsigned line) {
 	uint64_t stack_pointer;
 	__asm__ volatile ("mov %0,sp" : "=r" (stack_pointer));
 
-    printf("Assertion failed: %s: %s(%u)\n", expresion, file, line);
+    printf("Assertion failed: %s: %s(%u) : %s\n", expresion, file, line, function);
 
 	//debug_stacktrace ((uint64_t*) stack_pointer, NULL);
+}
+
+void not_implemented_error(const char *file, const char *function, unsigned line) {
+	printf("Not implemented: %s(%u) : %s\n", file, line, function);
 }
 
 #endif

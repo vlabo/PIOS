@@ -46,3 +46,6 @@ clean:
 
 run: kernel.img
 	qemu-system-aarch64 -M raspi3 -kernel $(BUILD_DIR)/kernel.img -serial null -serial stdio -d int
+
+tidy: $(SRC_C)
+	clang-tidy $(SRC_C) -checks=-*,clang-analyzer-* -- $(INCLUDES) $(CFLAGS) 

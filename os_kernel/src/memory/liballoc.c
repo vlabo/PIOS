@@ -835,11 +835,11 @@ void*   PREFIX(realloc)(void *p, size_t size)
 
 	return ptr;
 }
-
+/*
 void	*PREFIX(memset)(void* ptr, int value, size_t num) {
 	return liballoc_memset(ptr, value, num);
 }
 
 void    *PREFIX(memcpy)(void* dst, void* src, size_t size) {
 	return liballoc_memcpy( dst, src, size );
-}
+}*/

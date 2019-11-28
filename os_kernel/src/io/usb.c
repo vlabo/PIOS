@@ -9,7 +9,7 @@
 
 *******************************************************************************/
 #include <stdlib.h>
-#include "memory/liballoc.h"				// C standard needed for memset
+#include <string.h>
 //#include <wchar.h>				// C standard needed for UTF for unicode descriptor support
 #include "mbox.h"		// Provides timing routines and mailbox routines to power up/down the USB.  
 #include "usb.h"			// This units header
