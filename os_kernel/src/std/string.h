@@ -66,7 +66,7 @@ char *strncat(char *dest, const char *src, size_t n);
 /*
 * Searches for the first occurrence of the character c (an unsigned char) in the string pointed to, by the argument str.
 */
-char *strchr(const char *str, int c);
+const char *strchr(const char *str, int c);
 
 /*
 * Compares the string pointed to, by str1 to the string pointed to by str2.
@@ -111,12 +111,12 @@ size_t strlen(const char *str);
 /*
 * Finds the first character in the string str1 that matches any character specified in str2.
 */
-char *strpbrk(const char *str1, const char *str2);
+const char *strpbrk(const char *str1, const char *str2);
 
 /*
 * Searches for the last occurrence of the character c (an unsigned char) in the string pointed to by the argument str.
 */
-char *strrchr(const char *str, int c);
+const char *strrchr(const char *str, int c);
 
 /*
 * Calculates the length of the initial segment of str1 which consists entirely of characters in str2.
@@ -126,16 +126,6 @@ size_t strspn(const char *str1, const char *str2);
 /*
 * Finds the first occurrence of the entire string needle (not including the terminating null character) which appears in the string haystack.
 */
-char *strstr(const char *haystack, const char *needle);
-
-/*
-* Breaks string str into a series of tokens separated by delim.
-*/
-char *strtok(char *str, const char *delim);
-
-/*
-* Transforms the first n characters of the string src into current locale and places them in the string dest.
-*/
-size_t strxfrm(char *dest, const char *src, size_t n);
+const char *strstr(const char *str1, const char *str2);
 
 #endif /* STRING_H */

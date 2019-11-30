@@ -24,6 +24,7 @@
  */
 
 #include "liballoc.h"
+#include <string.h>
 
 //#define DEBUG
 
@@ -127,45 +128,7 @@ static long long l_errorCount = 0;			///< Number of actual errors
 static long long l_possibleOverruns = 0;	///< Number of possible overruns
 
 
-
-
-
 // ***********   HELPER FUNCTIONS  *******************************
-
-static void *liballoc_memset(void* s, int c, size_t n)
-{
-	unsigned int i;
-	for ( i = 0; i < n ; i++)
-		((char*)s)[i] = c;
-	
-	return s;
-}
-
-static void* liballoc_memcpy(void* s1, const void* s2, size_t n)
-{
-  char *cdest;
-  char *csrc;
-  unsigned int *ldest = (unsigned int*)s1;
-  unsigned int *lsrc  = (unsigned int*)s2;
-
-  while ( n >= sizeof(unsigned int) )
-  {
-      *ldest++ = *lsrc++;
-	  n -= sizeof(unsigned int);
-  }
-
-  cdest = (char*)ldest;
-  csrc  = (char*)lsrc;
-  
-  while ( n > 0 )
-  {
-      *cdest++ = *csrc++;
-	  n -= 1;
-  }
-  
-  return s1;
-}
- 
 
 #if defined DEBUG || defined INFO
 static void liballoc_dump()
@@ -740,7 +703,7 @@ void* PREFIX(calloc)(size_t nobj, size_t size)
        
        p = PREFIX(malloc)( real_size );
 
-       liballoc_memset( p, 0, real_size );
+       memset( p, 0, real_size );
 
        return p;
 }
@@ -830,16 +793,8 @@ void*   PREFIX(realloc)(void *p, size_t size)
 
 	// If we got here then we're reallocating to a block bigger than us.
 	ptr = PREFIX(malloc)( size );					// We need to allocate new memory
-	liballoc_memcpy( ptr, p, real_size );
+	memcpy( ptr, p, real_size );
 	PREFIX(free)( p );
 
 	return ptr;
 }
-/*
-void	*PREFIX(memset)(void* ptr, int value, size_t num) {
-	return liballoc_memset(ptr, value, num);
-}
-
-void    *PREFIX(memcpy)(void* dst, void* src, size_t size) {
-	return liballoc_memcpy( dst, src, size );
-}*/

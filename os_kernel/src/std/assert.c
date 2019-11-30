@@ -31,7 +31,7 @@
 
 #ifndef NDEBUG
 
-void assertion_failed (const char *expresion, const char *file, const char *function, unsigned line) {
+void assertion_failed(const char *expresion, const char *file, const char *function, unsigned line) {
 	uint64_t stack_pointer;
 	__asm__ volatile ("mov %0,sp" : "=r" (stack_pointer));
 
@@ -42,6 +42,10 @@ void assertion_failed (const char *expresion, const char *file, const char *func
 
 void not_implemented_error(const char *file, const char *function, unsigned line) {
 	printf("Not implemented: %s(%u) : %s\n", file, line, function);
+}
+
+void display_warning(const char *message, const char *file, const char *function, unsigned line) {
+	printf("Warning: %s - %s(%u) : %s\n", message, file, line, function);
 }
 
 #endif

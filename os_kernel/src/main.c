@@ -49,8 +49,10 @@ void main()
     printf("-------------------------------------------------\n");
     
     assert(1==4);
-    memmove(NULL, NULL, 10);
-
+    char* test = malloc(100);
+    memset(test, 0, 100);
+    free(test);
+    
     /* Initialize USB system we will want keyboard and mouse */
 	//UsbInitialise();
     //UsbCheckForChange();

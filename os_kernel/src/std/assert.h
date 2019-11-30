@@ -33,9 +33,11 @@
 #else
 	void assertion_failed(const char *expresion, const char *file, const char *function, unsigned line);
 	void not_implemented_error(const char *file, const char *function, unsigned line);
+	void display_warning(const char *message, const char *file, const char *function, unsigned line);
 
 	#define assert(expr)		((expr)	? ((void) 0) : assertion_failed (#expr, __FILE__, __FUNCTION__, __LINE__))
 	#define not_implemented()	not_implemented_error( __FILE__, __FUNCTION__, __LINE__)
+	#define warning(message)	display_warning(message, __FILE__, __FUNCTION__, __LINE__)
 #endif
 
 #endif

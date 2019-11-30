@@ -27,7 +27,13 @@
 #include <assert.h>
 
 void *memchr(const void *str, int c, size_t n) {
-    not_implemented();
+    char* p = (char*)str;
+    for(int i = 0; i < n; i++) {
+        if(*p == (char)c) {
+            return p;
+        }
+        p++;
+    }
     return NULL;
 }
 
@@ -42,72 +48,156 @@ int memcmp(const void *str1, const void *str2, size_t n) {
     return 0;
 }
 
-void *memcpy(void *dest, const void *src, size_t n) {
-    char* p1 = (char*)dest;
-    char* p2 = (char*)src;
-    for(int i = 0; i < n; i++, p1++, p2++) {
+void *memcpy_forward(void *dest, const void *src, size_t n) {
+
+    uint64_t* dest64 = (uint64_t*) dest;
+    uint64_t* src64 = (uint64_t*) src;
+
+    while(n >= sizeof(uint64_t)) {
+        *dest64 = *src64;
+        dest64++;
+        src64++;
+        n -= sizeof(uint64_t);
+    }
+
+    char* p1 = (char*) dest64;
+    char* p2 = (char*) src64;
+    while(n > 0) {
+        *p1 = *p2;
+        n--;
+    }
+
+    return dest;
+}
+
+void *memcpy_backword(void *dest, const void *src, size_t n) {
+    // TODO: optimize with 64 bit chunks of memory when possible.
+    char* p1 = (char*)dest + n - 1;
+    char* p2 = (char*)src + n - 1;
+    for(int i = 0; i < n; i++, p1--, p2--) {
         *p1 = *p2;
     }
 
     return dest;
 }
 
+void *memcpy(void *dest, const void *src, size_t n) {
+    return memcpy_forward(dest, src, n);
+} 
+
 void *memmove(void *dest, const void *src, size_t n) {
-    not_implemented();
-    return NULL;
+    // memory dose not overlap
+    if(dest > src + n - 1 || dest + n - 1 < src) {
+        return memcpy_forward(dest, src, n);
+    }
+
+    if(dest > src) {
+        memcpy_backword(dest, src, n);
+    } else if (dest < src){
+        memcpy_forward(dest, src, n);
+    }
+
+    return dest;
 }
 
 void *memset(void *str, int c, size_t n) {
-    char* p = (char*)str;
     for(int i = 0; i < n; i++) {
-        *p = (char)c;
+        ((char*)str)[i] = (char)c;
     }
     return str;
 }
 
 char *strcat(char *dest, const char *src) {
-    not_implemented();
-    return NULL;
+    while(*dest != '\0') {
+        dest++;
+    }
+
+    do{
+        *dest = *src;
+        dest++;
+        src++;
+    } while(*src != '\0');
+
+    return dest;
 }
 
 char *strncat(char *dest, const char *src, size_t n) {
-    not_implemented();
-    return NULL;
+    while(*dest != '\0') {
+        dest++;
+    }
+    for(int i = 0; i < n && *src == '\0'; i++, dest++, src++) {
+        *dest = *src;   
+    }
+    dest++;
+    *dest = '\0';
+
+    return dest;
 }
 
-char *strchr(const char *str, int c) {
-    not_implemented();
-    return NULL;
+const char *strchr(const char *str, int c) {
+    while(*str != '\0') {
+        if(*str == (char) c) {
+            break;
+        }
+        str++;
+    }
+    return str;
 }
 
 int strcmp(const char *str1, const char *str2) {
-    not_implemented();
+    for(; str1 != '\0' && str2 != '\0'; str1++, str2++) {
+        if(*str1 != *str2) {
+            return *str1 - *str2;
+        }
+    }
     return 0;
 }
 
 int strncmp(const char *str1, const char *str2, size_t n) {
-    not_implemented();
+    for(int i = 0; i < n && str1 != '\0' && str2 != '\0'; i++, str1++, str2++) {
+        if(*str1 != *str2) {
+            return *str1 - *str2;
+        }
+    }
     return 0;
 }
 
 int strcoll(const char *str1, const char *str2) {
-    not_implemented();
-    return 0;
+    warning("strcoll() not implemented calling strcmp() insted.");
+    return strcmp(str1, str2);
 }
 
 char *strcpy(char *dest, const char *src) {
-    not_implemented();
-    return NULL;
+    do {
+        *dest = *src;
+        dest++;
+        src++;
+    } while(*src != '\0');
+    return dest;
 }
 
 char *strncpy(char *dest, const char *src, size_t n) {
-    not_implemented();
-    return NULL;
+    return memcpy((void*)dest, (void*)src, n);
 }
 
 size_t strcspn(const char *str1, const char *str2) {
-    not_implemented();
-    return 0;
+    size_t size2 = strlen(str1);
+    size_t count = 0;
+    while(*str1 != '\0') {
+        char current_char = *str1;
+        bool is_charecter_in = false;
+        for(int i = 0;i < size2; i++) {
+            if(current_char == str2[i]) {
+                is_charecter_in = true;
+                break;
+            }
+        }
+
+        if(is_charecter_in) {
+            count++;
+        }
+    }
+    return count;
 }
 
 char *strerror(int errnum) {
@@ -116,40 +206,55 @@ char *strerror(int errnum) {
 }
 
 size_t strlen(const char *str) {
-    size_t size = 0;
-    while(*str != '\0') {
-        size++;
-        str++;
+    const char* p = str;
+    while(*p != '\0') {
+        p++;
     }
-    return size;
+    return p - str;
 }
 
-char *strpbrk(const char *str1, const char *str2) {
-    not_implemented();
+const char *strpbrk(const char *str1, const char *str2) {
+    size_t size2 = strlen(str2);
+    while(*str1 != '\0') {
+        for(int i = 0; i < size2; i++) {
+            if(*str1 == str2[i]) {
+                return str1;
+            }
+        }
+        str1++;
+    }
     return NULL;
 }
 
-char *strrchr(const char *str, int c) {
-    not_implemented();
+const char *strrchr(const char *str, int c) {
+    size_t size = strlen(str);
+    for(int i = size - 1; i >= 0; i--) {
+        if(str[i] == (char)c) {
+            return &str[i];
+        }
+
+    }
     return NULL;
 }
 
-size_t strspn(const char *str1, const char *str2) {
-    not_implemented();
-    return 0;
-}
+const char *strstr(const char *str1, const char *str2) {
+    size_t size1 = strlen(str1);
+    size_t size2 = strlen(str2);
+    if(size1 < size2) {
+        return NULL;
+    }
 
-char *strstr(const char *haystack, const char *needle) {
-    not_implemented();
+    for(int i = 0; i < size1; i++) {
+        bool found = false;
+        for(int j = 0; j < size2; j++) {
+            if(str1[i] != str2[j]) {
+                break;
+            }
+            found = true;
+        }
+        if(found) {
+            return &str1[i];
+        }
+    } 
     return NULL;
-}
-
-char *strtok(char *str, const char *delim) {
-    not_implemented();
-    return NULL;
-}
-
-size_t strxfrm(char *dest, const char *src, size_t n) {
-    not_implemented();
-    return 0;
 }
