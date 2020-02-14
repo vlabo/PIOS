@@ -5,7 +5,7 @@ A simple OS for the Raspberry PI 3
 **Here is a great tutorial:**  
 https://github.com/bztsrc/raspi3-tutorial
 
-**And uploading the kernel from the serial connections is possible because of this repository:**  
+**And uploading the kernel from UART is possible because of this repository:**  
 https://github.com/mrvn/raspbootin
 
 ## Dependencies
